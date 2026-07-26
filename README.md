@@ -6,7 +6,7 @@ OfferPilot AI is a production-ready AI web application that analyses a candidate
 
 The application is designed as a focused SaaS product that demonstrates AI integration, secure backend architecture, responsive frontend development, validation, testing, CI/CD, and deployment.
 
-**Live Demo:** https://your-vercel-link.vercel.app
+**Live Demo:** https://offerpilot-ai-zeta.vercel.app/
 
 ---
 
