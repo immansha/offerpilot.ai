@@ -1,126 +1,127 @@
-# 🚀 OfferPilot AI
+# OfferPilot AI
 
-<p align="center">
+> Turn every job description into an interview strategy.
 
-**Turn every job description into an interview strategy.**
+OfferPilot AI is a production-ready AI web application that analyses a candidate's resume against a job description using Google Gemini. It provides an AI-generated Job Match Score, identifies missing keywords, highlights skill gaps, and generates a tailored cover letter.
 
-AI-powered resume analysis that compares your resume against a job description,
-identifies missing skills, highlights strengths, and generates a tailored cover
-letter — all in seconds.
+The application is designed as a focused SaaS product that demonstrates AI integration, secure backend architecture, responsive frontend development, validation, testing, CI/CD, and deployment.
 
-[🌐 Live Demo](#) • [📄 Documentation](#installation) • [⚡ Tech Stack](#tech-stack)
-
-</p>
+**Live Demo:** https://your-vercel-link.vercel.app
 
 ---
 
-## ✨ Overview
+## Table of Contents
 
-OfferPilot AI is a production-ready AI SaaS application built with **Next.js 15** and **Google Gemini**.
-
-Instead of simply telling users whether they "match" a role, OfferPilot AI provides actionable insights that improve the quality of job applications.
-
-The application analyses:
-
-- 📊 Job Match Score
-- 🔍 Missing Keywords
-- 💡 Skill Gap Analysis
-- ✍️ AI-generated Cover Letter
-
-> **Disclaimer:** The Job Match Score is AI-generated guidance and **not** an official ATS score or hiring prediction.
-
----
-
-# 📸 Screenshots
-
-| Landing | Analysis | Results |
-|----------|----------|----------|
-| <img src="docs/landing.png" width="260"> | <img src="docs/analyse.png" width="260"> | <img src="docs/results.png" width="260"> |
+- Overview
+- Features
+- Tech Stack
+- Architecture
+- Project Structure
+- Installation
+- Environment Variables
+- Running Locally
+- API Flow
+- CI/CD
+- Security
+- Trade-offs
+- Future Improvements
+- AI Usage
+- License
+- Author
 
 ---
 
-# 🚀 Features
+# Overview
+
+OfferPilot AI helps job seekers understand how well their resume aligns with a specific role.
+
+Instead of returning a generic score, the application provides actionable insights including:
+
+- Job Match Score
+- Missing Keywords
+- Skill Gap Analysis
+- Tailored Cover Letter
+
+The Job Match Score is AI-generated guidance and should not be interpreted as an official ATS score or hiring prediction.
+
+---
+
+# Features
 
 | Feature | Description |
-|----------|-------------|
-| 📄 Resume Upload | Upload PDF resumes securely |
-| 🤖 AI Analysis | Gemini-powered resume evaluation |
-| 📊 Job Match Score | AI-generated compatibility score |
-| 🔑 Keyword Detection | Important & optional missing keywords |
-| 📈 Skill Gap Analysis | Strengths, weaknesses & improvement suggestions |
-| ✍️ Cover Letter Generator | Tailored cover letter for each job |
-| 📋 Copy & Download | Export cover letter as Markdown |
-| 🔒 Privacy First | Resume never stored permanently |
-| 📱 Responsive UI | Mobile, tablet & desktop support |
-| ♿ Accessibility | Keyboard navigation & reduced motion |
+|---------|-------------|
+| Resume Upload | Upload PDF resumes securely |
+| Resume Parsing | Browser-side PDF text extraction |
+| AI Analysis | Google Gemini-powered resume evaluation |
+| Job Match Score | AI-generated compatibility score |
+| Missing Keywords | Important and optional keyword detection |
+| Skill Gap Analysis | Strengths, missing skills, and recommendations |
+| Cover Letter Generation | Role-specific cover letter |
+| Responsive Design | Mobile, tablet, and desktop support |
+| Accessibility | Keyboard navigation and reduced motion support |
+| Privacy | Resume files are never permanently stored |
 
 ---
 
-# 🛠 Tech Stack
+# Tech Stack
 
-| Category | Technologies |
-|----------|--------------|
+| Category | Technology |
+|----------|------------|
 | Framework | Next.js 15 (App Router) |
 | Language | TypeScript |
 | Styling | Tailwind CSS |
-| UI | shadcn/ui |
+| UI Components | shadcn/ui |
 | Animation | Framer Motion |
-| Forms | React Hook Form + Zod |
+| Forms | React Hook Form |
+| Validation | Zod |
 | AI | Google Gemini 2.5 Flash |
-| PDF | pdfjs-dist |
+| PDF Parsing | pdfjs-dist |
 | Charts | Recharts |
-| Testing | Vitest + React Testing Library |
+| Testing | Vitest, React Testing Library |
 | CI/CD | GitHub Actions |
 | Deployment | Vercel |
 
 ---
 
-# 🏗 Architecture
+# Architecture
 
 ```text
-                 ┌─────────────────────┐
-                 │      User           │
-                 └─────────┬───────────┘
-                           │
-                           ▼
-               Upload Resume + JD
-                           │
-                           ▼
-          Browser PDF Extraction (pdfjs)
-                           │
-                           ▼
-               POST /api/analyse
-                           │
-                           ▼
-              Zod Request Validation
-                           │
-                           ▼
-              Google Gemini API
-                           │
-                           ▼
-             Structured JSON Response
-                           │
-                           ▼
-              Zod Response Validation
-                           │
-                           ▼
-          sessionStorage (Results Only)
-                           │
-                           ▼
-                  Results Dashboard
+                User
+                  │
+                  ▼
+      Resume Upload + Job Description
+                  │
+                  ▼
+       Browser-side PDF Extraction
+             (pdfjs-dist)
+                  │
+                  ▼
+          POST /api/analyse
+                  │
+                  ▼
+         Request Validation (Zod)
+                  │
+                  ▼
+      Google Gemini (Server-side)
+                  │
+                  ▼
+        Response Validation (Zod)
+                  │
+                  ▼
+          Session Storage
+                  │
+                  ▼
+             Results Page
 ```
 
 ---
 
-# 📂 Folder Structure
+# Project Structure
 
 ```text
 app/
-│
 ├── api/
 │   └── analyse/
-│       └── route.ts
-│
 ├── analyse/
 ├── results/
 └── page.tsx
@@ -132,12 +133,11 @@ tests/
 
 .github/
 └── workflows/
-    └── ci.yml
 ```
 
 ---
 
-# ⚙️ Installation
+# Installation
 
 ```bash
 git clone https://github.com/immansha/offerpilot.ai.git
@@ -149,19 +149,19 @@ npm install
 
 ---
 
-# 🔐 Environment Variables
+# Environment Variables
 
-Create:
+Create a `.env.local` file.
 
 ```env
 GEMINI_API_KEY=your_api_key
 ```
 
-Never expose the key using `NEXT_PUBLIC_`.
+The API key is read only on the server and is never exposed to the client.
 
 ---
 
-# ▶️ Run Locally
+# Running Locally
 
 ```bash
 npm run dev
@@ -171,96 +171,109 @@ Quality checks:
 
 ```bash
 npm run lint
-
 npm run typecheck
-
 npm run test
-
 npm run build
 ```
 
 ---
 
-# 🔄 CI/CD Pipeline
-
-Every push triggers:
+# API Flow
 
 ```text
-Push to GitHub
+Resume PDF
       │
       ▼
-GitHub Actions
-      │
- ├── Install
- ├── Lint
- ├── Typecheck
- ├── Tests
- ├── Build
+Extract Resume Text
       │
       ▼
-Vercel Deployment
+Validate Input
+      │
+      ▼
+Google Gemini
+      │
+      ▼
+Validate Output
+      │
+      ▼
+Return Structured JSON
+      │
+      ▼
+Render Analysis Results
 ```
 
 ---
 
-# 🔒 Security
+# CI/CD
 
-- Server-side Gemini integration
-- API key never exposed
-- Local PDF processing
-- Zod validation
+Every push and pull request triggers:
+
+| Stage | Status |
+|--------|--------|
+| Install Dependencies | ✓ |
+| Lint | ✓ |
+| Type Check | ✓ |
+| Tests | ✓ |
+| Production Build | ✓ |
+
+Deployment is handled automatically through Vercel.
+
+---
+
+# Security
+
+- Server-side AI integration
+- API keys stored in environment variables
+- Browser-side PDF processing
+- Zod request and response validation
 - Safe error handling
 - Session-only persistence
+- No permanent resume storage
 
 ---
 
-# ⚖️ Trade-offs
+# Trade-offs
 
 | Decision | Reason |
-|-----------|--------|
-| Browser PDF parsing | Keeps resumes private |
-| Session Storage | Avoids unnecessary backend |
-| No authentication | Faster MVP |
-| No database | Reduced complexity |
+|----------|--------|
+| Browser PDF extraction | Improves privacy and reduces backend complexity |
+| Session Storage | Eliminates database requirements |
+| No Authentication | Keeps the application focused on the assessment |
+| No Database | Reduces operational complexity |
 
 ---
 
-# 🚀 Future Improvements
+# Future Improvements
 
 - Authentication
-- Saved history
-- Interview Questions
-- Company Research
-- Resume Versioning
-- PDF Export
-- Salary Insights
-- Team Workspace
+- Saved analysis history
+- Multiple resume versions
+- Interview question generation
+- Company research
+- Salary insights
+- PDF export
+- Resume comparison
 
 ---
 
-# 🤖 AI Usage
+# AI Usage
 
-AI assisted in:
+AI tools were used to accelerate development through code scaffolding, UI refinement, prompt engineering, documentation, and test generation.
 
-- UI scaffolding
-- Prompt refinement
-- Documentation
-- Test generation
-
-All generated code was manually reviewed, modified and tested.
+All generated code was manually reviewed, modified, validated, and tested before deployment.
 
 ---
 
-# 📄 License
+# License
 
 MIT License
 
 ---
 
-# 👨‍💻 Author
+# Author
 
 **Mansha Kshatriya**
 
-LinkedIn: https://linkedin.com/in/mansha-kshatriya-7188a5251
-
 GitHub: https://github.com/immansha
+
+LinkedIn: https://linkedin.com/in/mansha-kshatriya-7188a5251
